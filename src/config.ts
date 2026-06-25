@@ -21,9 +21,10 @@ export const DOWNLOADS = {
   windows: "",
 };
 
-// Waitlist capture. Leave empty for a client-only thank-you state; drop in a
-// Formspree / Buttondown / serverless endpoint URL to actually collect emails.
-export const WAITLIST_ENDPOINT = "";
+// Waitlist capture. Points at our own serverless endpoint
+// (src/pages/api/waitlist.ts), which emails each signup via Resend. A relative
+// path keeps it same-origin in dev and on Vercel — no CORS, no hardcoded domain.
+export const WAITLIST_ENDPOINT = "/api/waitlist";
 
 export const PLATFORMS = "macOS 12+ · Windows 10+";
 

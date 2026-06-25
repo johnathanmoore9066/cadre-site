@@ -25,6 +25,11 @@ import { DOWNLOAD_READY, DOWNLOADS, WAITLIST_ENDPOINT, PLATFORMS } from "../conf
           </p>
 
           <form class="waitlist" id="waitlist" data-endpoint={WAITLIST_ENDPOINT} data-reveal novalidate>
+            {/* Honeypot: hidden from people, tempting to bots. If it comes back
+                filled, the server silently drops the submission. */}
+            <div class="waitlist__hp" aria-hidden="true">
+              <label>Company<input type="text" name="company" id="wl-company" tabindex="-1" autocomplete="off" /></label>
+            </div>
             <div class="waitlist__field frame">
               <input
                 type="email"
@@ -79,6 +84,14 @@ import { DOWNLOAD_READY, DOWNLOADS, WAITLIST_ENDPOINT, PLATFORMS } from "../conf
     width: 100%;
     max-width: 520px;
     margin-top: 2.6rem;
+  }
+  /* Honeypot — pulled off-screen but still in the DOM for bots to fill. */
+  .waitlist__hp {
+    position: absolute;
+    left: -9999px;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
   }
   .waitlist__field {
     display: flex;
@@ -139,6 +152,7 @@ import { DOWNLOAD_READY, DOWNLOADS, WAITLIST_ENDPOINT, PLATFORMS } from "../conf
   if (form) {
     const msg = document.getElementById("wl-msg") as HTMLElement;
     const input = document.getElementById("wl-email") as HTMLInputElement;
+    const honeypot = document.getElementById("wl-company") as HTMLInputElement | null;
     form.addEventListener("submit", async (e) => {
       e.preventDefault();
       msg.classList.remove("is-error");
@@ -155,7 +169,7 @@ import { DOWNLOAD_READY, DOWNLOADS, WAITLIST_ENDPOINT, PLATFORMS } from "../conf
           const res = await fetch(endpoint, {
             method: "POST",
             headers: { "Content-Type": "application/json", Accept: "application/json" },
-            body: JSON.stringify({ email }),
+            body: JSON.stringify({ email, company: honeypot?.value ?? "" }),
           });
           if (!res.ok) throw new Error(String(res.status));
         } catch {
