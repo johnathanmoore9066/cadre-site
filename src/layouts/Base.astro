@@ -1,0 +1,52 @@
+---
+import "../styles/global.css";
+import { SITE } from "../config";
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+const { title, description = SITE.description } = Astro.props;
+const fullTitle = title
+  ? `${title} — ${SITE.name}${SITE.suffix}`
+  : `${SITE.name}${SITE.suffix} — ${SITE.tagline}`;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="generator" content={Astro.generator} />
+
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta name="theme-color" content="#f3f1ea" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <!-- the cadre: a frame around the whole viewport + faint column grid -->
+    <div class="viewport-frame" aria-hidden="true">
+      <i></i><i></i><i></i><i></i>
+    </div>
+    <div class="grid-lines" aria-hidden="true">
+      <span></span><span></span><span></span><span></span>
+    </div>
+
+    <slot />
+
+    <script>
+      import "../scripts/motion.ts";
+    </script>
+  </body>
+</html>

@@ -1,0 +1,204 @@
+---
+const points = [
+  {
+    n: "01",
+    title: "Everything lives on your machine",
+    body: "Resumes, employee files, and policy docs sit in a local SQLite database on your computer. No account, no server, no sync.",
+  },
+  {
+    n: "02",
+    title: "Only redacted excerpts travel",
+    body: "When Cadre needs Claude, it sends the specific blind-screened excerpt — never the file, never the name, never the whole record.",
+  },
+  {
+    n: "03",
+    title: "Nothing phones home",
+    body: "No telemetry, no analytics, no background uploads. The only outbound call is the one you trigger, to the API key you control.",
+  },
+];
+---
+
+<section class="section privacy" id="privacy">
+  <div class="wrap privacy__inner">
+    <!-- sticky diagram column (pinned feel, robustly, via position:sticky) -->
+    <div class="privacy__stage">
+      <div class="diagram frame" aria-hidden="true">
+        <p class="diagram__label">YOUR MACHINE</p>
+        <div class="diagram__files">
+          <span>resume.pdf</span>
+          <span>employee_file</span>
+          <span>handbook.pdf</span>
+          <span>policy.md</span>
+        </div>
+        <div class="diagram__db">
+          <i></i><i></i><i></i>
+          <em>local.db</em>
+        </div>
+
+        <div class="diagram__wire">
+          <span class="packet">redacted excerpt →</span>
+        </div>
+        <div class="diagram__cloud">
+          <span>Claude</span>
+        </div>
+      </div>
+      <p class="diagram__caption">0 bytes of PII leave the frame.</p>
+    </div>
+
+    <div class="privacy__copy">
+      <p class="eyebrow" data-reveal><span class="tick"></span>03 — Private by architecture</p>
+      <h2 class="privacy__head" data-reveal>
+        Your data stays<br />inside the frame.
+      </h2>
+      <ol class="privacy__points" data-reveal-group>
+        {
+          points.map((p) => (
+            <li class="ppoint" data-reveal-item>
+              <span class="ppoint__n">{p.n}</span>
+              <div>
+                <h3 class="ppoint__title">{p.title}</h3>
+                <p class="ppoint__body">{p.body}</p>
+              </div>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+  </div>
+</section>
+
+<style>
+  .privacy {
+    background: var(--paper-2);
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+  }
+  .privacy__inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: clamp(2rem, 6vw, 6rem);
+    align-items: start;
+  }
+  .privacy__stage {
+    position: sticky;
+    top: clamp(96px, 16vh, 160px);
+  }
+  .diagram {
+    aspect-ratio: 4 / 3.4;
+    padding: 1.4rem;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    background: var(--white);
+    overflow: hidden;
+  }
+  .diagram__label {
+    font-family: var(--font-mono);
+    font-size: 0.66rem;
+    letter-spacing: 0.18em;
+    color: var(--ink-faint);
+  }
+  .diagram__files {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    align-content: start;
+    margin-top: 1rem;
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+  }
+  .diagram__files span {
+    padding: 0.35em 0.6em;
+    border: 1px solid var(--line);
+    color: var(--ink-soft);
+    background: var(--paper);
+  }
+  .diagram__db {
+    position: relative;
+    align-self: center;
+    justify-self: start;
+    margin-top: 1rem;
+    padding: 0.9rem 1.1rem;
+    border: 1px solid var(--ink);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+  .diagram__db i {
+    width: 6px;
+    height: 18px;
+    background: var(--accent);
+  }
+  .diagram__db i:nth-child(2) { height: 26px; }
+  .diagram__db i:nth-child(3) { height: 14px; }
+  .diagram__db em {
+    margin-left: 0.5rem;
+    font-family: var(--font-mono);
+    font-style: normal;
+    font-size: 0.7rem;
+    color: var(--ink-soft);
+  }
+  .diagram__wire {
+    margin-top: 1.2rem;
+    border-top: 1px dashed var(--line-strong);
+    padding-top: 0.7rem;
+  }
+  .diagram__wire .packet {
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    color: var(--accent);
+    letter-spacing: 0.04em;
+  }
+  .diagram__cloud {
+    justify-self: end;
+    margin-top: 0.4rem;
+    padding: 0.5em 0.9em;
+    border: 1px dashed var(--line-strong);
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    color: var(--ink-faint);
+  }
+  .diagram__caption {
+    margin-top: 1rem;
+    font-family: var(--font-mono);
+    font-size: var(--step--1);
+    color: var(--ink-soft);
+  }
+
+  .privacy__head {
+    font-size: var(--step-4);
+    margin-top: 1.4rem;
+  }
+  .privacy__points {
+    list-style: none;
+    margin: clamp(2rem, 5vh, 3.4rem) 0 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 2.2rem;
+  }
+  .ppoint {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 1.1rem;
+    padding-top: 1.6rem;
+    border-top: 1px solid var(--line);
+  }
+  .ppoint__n {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--accent);
+  }
+  .ppoint__title {
+    font-size: var(--step-1);
+  }
+  .ppoint__body {
+    margin-top: 0.5rem;
+    color: var(--ink-soft);
+    max-width: 42ch;
+  }
+
+  @media (max-width: 900px) {
+    .privacy__inner { grid-template-columns: 1fr; }
+    .privacy__stage { position: static; margin-bottom: 2.5rem; max-width: 460px; }
+  }
+</style>

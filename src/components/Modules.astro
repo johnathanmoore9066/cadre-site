@@ -1,0 +1,186 @@
+---
+import { MODULES } from "../config";
+---
+
+<section class="modules" id="tools" data-modules>
+  <div class="modules__pin">
+    <div class="wrap modules__head">
+      <p class="eyebrow"><span class="tick"></span>05 — The whole hire-to-exit loop</p>
+      <p class="modules__count"><span>05</span> / tools</p>
+    </div>
+
+    <div class="modules__track" data-modules-track>
+      <article class="intro-panel">
+        <h2>Five tools,<br />one quiet desktop app.</h2>
+        <p>Cadre walks the entire arc — from the first resume to the last conversation — without a single record leaving your machine.</p>
+        <span class="intro-panel__hint">Scroll →</span>
+      </article>
+
+      {
+        MODULES.map((m) => (
+          <article class="module frame" data-module>
+            <header class="module__top">
+              <span class="module__n">{m.n}</span>
+              <span class="module__tag">{m.tag}</span>
+            </header>
+            <h3 class="module__name">{m.name}</h3>
+            <p class="module__line">{m.line}</p>
+            <div class="module__viz" aria-hidden="true">
+              <i></i><i></i><i></i>
+            </div>
+          </article>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .modules {
+    background: var(--ink);
+    color: var(--white);
+  }
+  /* mobile-first / no-JS baseline: a normal, fully visible stacked section.
+     The pin + horizontal scroll only switch on under html.anim (motion path). */
+  .modules__pin {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-block: clamp(3rem, 8vh, 6rem);
+  }
+  .modules__head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-bottom: clamp(2rem, 5vh, 3.5rem);
+  }
+  .modules__head .eyebrow {
+    color: rgba(251, 250, 246, 0.6);
+  }
+  .modules__head .eyebrow .tick {
+    background: rgba(251, 250, 246, 0.4);
+  }
+  .modules__count {
+    font-family: var(--font-mono);
+    font-size: var(--step--1);
+    color: rgba(251, 250, 246, 0.5);
+  }
+  .modules__count span {
+    color: var(--white);
+  }
+
+  .modules__track {
+    display: flex;
+    flex-direction: column;
+    gap: clamp(1rem, 2vw, 1.8rem);
+    padding-inline: var(--gutter);
+    width: 100%;
+  }
+
+  .intro-panel {
+    flex: none;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-right: clamp(1rem, 3vw, 3rem);
+  }
+  .intro-panel h2 {
+    font-size: var(--step-3);
+  }
+  .intro-panel p {
+    margin-top: 1.2rem;
+    color: rgba(251, 250, 246, 0.66);
+    max-width: 34ch;
+  }
+  .intro-panel__hint {
+    margin-top: 1.6rem;
+    font-family: var(--font-mono);
+    font-size: var(--step--1);
+    letter-spacing: 0.12em;
+    color: var(--accent);
+  }
+
+  .module {
+    flex: none;
+    width: 100%;
+    background: #1f1e15;
+    border-color: rgba(251, 250, 246, 0.16);
+    padding: 1.6rem;
+    display: flex;
+    flex-direction: column;
+  }
+  .module::before,
+  .module::after {
+    border-color: rgba(251, 250, 246, 0.45);
+  }
+  .module__top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+  }
+  .module__n {
+    color: var(--accent);
+    font-size: 1rem;
+  }
+  .module__tag {
+    letter-spacing: 0.14em;
+    color: rgba(251, 250, 246, 0.5);
+  }
+  .module__name {
+    font-size: var(--step-2);
+    margin-top: 1.5rem;
+  }
+  .module__line {
+    margin-top: 1rem;
+    color: rgba(251, 250, 246, 0.62);
+    font-size: 0.92rem;
+  }
+  .module__viz {
+    display: flex;
+    gap: 0.4rem;
+    margin-top: 1.6rem;
+  }
+  .module__viz i {
+    height: 4px;
+    flex: 1;
+    background: rgba(251, 250, 246, 0.16);
+  }
+  .module__viz i:first-child {
+    background: var(--accent);
+  }
+
+  /* desktop, no motion: wrap the cards into a centered grid so all are visible */
+  @media (min-width: 860px) {
+    .modules__track {
+      flex-direction: row;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .intro-panel { width: min(70vw, 460px); }
+    .module {
+      width: min(40vw, 360px);
+      min-height: 380px;
+    }
+    .module__name { margin-top: auto; padding-top: 2.5rem; }
+  }
+
+  /* motion path: pin the section and lay the track out as one horizontal row
+     that motion.ts scrolls sideways. */
+  html.anim .modules__pin {
+    min-height: 100svh;
+    overflow: hidden;
+  }
+  @media (min-width: 860px) {
+    html.anim .modules__track {
+      flex-wrap: nowrap;
+      width: max-content;
+      justify-content: flex-start;
+      will-change: transform;
+    }
+    html.anim .intro-panel { width: min(78vw, 460px); }
+    html.anim .module { width: min(78vw, 360px); }
+  }
+</style>

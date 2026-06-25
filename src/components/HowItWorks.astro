@@ -1,0 +1,76 @@
+---
+import { STEPS } from "../config";
+---
+
+<section class="section how" id="how">
+  <div class="wrap">
+    <p class="eyebrow" data-reveal><span class="tick"></span>06 — How it works</p>
+    <h2 class="how__head" data-reveal>Running in three steps.</h2>
+
+    <ol class="how__steps" data-reveal-group>
+      {
+        STEPS.map((s) => (
+          <li class="step" data-reveal-item>
+            <span class="step__n">{s.n}</span>
+            <h3 class="step__title">{s.title}</h3>
+            <p class="step__body">{s.body}</p>
+          </li>
+        ))
+      }
+    </ol>
+
+    <p class="how__note" data-reveal>
+      <span class="accent">Bring your own key.</span> No subscription, no seats,
+      no markup. Cadre is a tool you own — it talks to Anthropic with your key and
+      nobody else's, and the bill is yours alone.
+    </p>
+  </div>
+</section>
+
+<style>
+  .how {
+    border-top: 1px solid var(--line);
+  }
+  .how__head {
+    font-size: var(--step-3);
+    margin-top: 1.4rem;
+  }
+  .how__steps {
+    list-style: none;
+    margin: clamp(2.5rem, 6vh, 4rem) 0 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: clamp(1.5rem, 4vw, 3rem);
+  }
+  .step {
+    padding-top: 1.4rem;
+    border-top: 1px solid var(--ink);
+  }
+  .step__n {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--accent);
+  }
+  .step__title {
+    font-size: var(--step-2);
+    margin-top: 2.2rem;
+  }
+  .step__body {
+    margin-top: 0.9rem;
+    color: var(--ink-soft);
+    max-width: 32ch;
+  }
+  .how__note {
+    margin-top: clamp(2.5rem, 6vh, 4rem);
+    padding-top: 1.6rem;
+    border-top: 1px solid var(--line);
+    font-size: var(--step-1);
+    max-width: 60ch;
+    color: var(--ink-soft);
+  }
+  @media (max-width: 820px) {
+    .how__steps { grid-template-columns: 1fr; gap: 1.5rem; }
+    .step__title { margin-top: 1rem; }
+  }
+</style>

@@ -1,0 +1,171 @@
+---
+import { DOWNLOAD_READY, DOWNLOADS, WAITLIST_ENDPOINT, PLATFORMS } from "../config";
+---
+
+<section class="section download" id="download">
+  <div class="wrap download__inner">
+    <p class="eyebrow" data-reveal><span class="tick"></span>08 — {DOWNLOAD_READY ? "Download" : "Early access"}</p>
+
+    {
+      DOWNLOAD_READY ? (
+        <>
+          <h2 class="download__head" data-reveal>Run Cadre today.</h2>
+          <p class="lead download__lead" data-reveal>One installer, no account. Add your Anthropic key and you're working.</p>
+          <div class="download__buttons" data-reveal>
+            <a class="btn btn--accent" href={DOWNLOADS.mac}>Download for macOS</a>
+            <a class="btn btn--ghost" href={DOWNLOADS.windows}>Download for Windows</a>
+          </div>
+        </>
+      ) : (
+        <>
+          <h2 class="download__head" data-reveal>Be first to run Cadre.</h2>
+          <p class="lead download__lead" data-reveal>
+            The desktop app is in final build. Leave your email and we'll send the
+            download the day it ships — nothing else.
+          </p>
+
+          <form class="waitlist" id="waitlist" data-endpoint={WAITLIST_ENDPOINT} data-reveal novalidate>
+            <div class="waitlist__field frame">
+              <input
+                type="email"
+                name="email"
+                id="wl-email"
+                placeholder="you@company.com"
+                autocomplete="email"
+                required
+              />
+              <button type="submit" class="btn btn--accent">Notify me</button>
+            </div>
+            <p class="waitlist__msg" id="wl-msg" role="status" aria-live="polite"></p>
+          </form>
+        </>
+      )
+    }
+
+    <p class="download__platforms" data-reveal>
+      <span class="dot"></span>{DOWNLOAD_READY ? "Available for" : "Coming soon for"} {PLATFORMS}
+    </p>
+  </div>
+</section>
+
+<style>
+  .download {
+    border-top: 1px solid var(--line);
+    text-align: center;
+  }
+  .download__inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .download__head {
+    font-size: var(--step-4);
+    margin-top: 1.4rem;
+  }
+  .download__lead {
+    margin-top: 1.6rem;
+    max-width: 50ch;
+    text-align: center;
+  }
+  .download__buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.8rem;
+    justify-content: center;
+    margin-top: 2.4rem;
+  }
+
+  .waitlist {
+    width: 100%;
+    max-width: 520px;
+    margin-top: 2.6rem;
+  }
+  .waitlist__field {
+    display: flex;
+    align-items: stretch;
+    gap: 0.5rem;
+    padding: 0.5rem;
+    background: var(--white);
+  }
+  .waitlist__field input {
+    flex: 1;
+    border: 0;
+    background: transparent;
+    padding: 0.7em 0.9em;
+    font-family: var(--font-mono);
+    font-size: var(--step--1);
+    color: var(--ink);
+  }
+  .waitlist__field input:focus {
+    outline: none;
+  }
+  .waitlist__field .btn {
+    flex: none;
+  }
+  .waitlist__msg {
+    min-height: 1.4em;
+    margin-top: 1rem;
+    font-family: var(--font-mono);
+    font-size: var(--step--1);
+    color: var(--accent);
+  }
+  .waitlist__msg.is-error {
+    color: var(--ink-soft);
+  }
+
+  .download__platforms {
+    display: flex;
+    align-items: center;
+    gap: 0.6em;
+    margin-top: 2.4rem;
+    font-family: var(--font-mono);
+    font-size: var(--step--1);
+    color: var(--ink-faint);
+    letter-spacing: 0.05em;
+  }
+  .dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--ink-faint);
+  }
+</style>
+
+<script>
+  // Waitlist handling. If a data-endpoint is set, POST the email there;
+  // otherwise fall back to a graceful client-only confirmation. No backend
+  // is required to demo the flow — wire data-endpoint when ready.
+  const form = document.getElementById("waitlist") as HTMLFormElement | null;
+  if (form) {
+    const msg = document.getElementById("wl-msg") as HTMLElement;
+    const input = document.getElementById("wl-email") as HTMLInputElement;
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      msg.classList.remove("is-error");
+      const email = input.value.trim();
+      if (!email || !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) {
+        msg.textContent = "Enter a valid email address.";
+        msg.classList.add("is-error");
+        input.focus();
+        return;
+      }
+      const endpoint = form.dataset.endpoint;
+      if (endpoint) {
+        try {
+          const res = await fetch(endpoint, {
+            method: "POST",
+            headers: { "Content-Type": "application/json", Accept: "application/json" },
+            body: JSON.stringify({ email }),
+          });
+          if (!res.ok) throw new Error(String(res.status));
+        } catch {
+          msg.textContent = "Something went wrong — try again in a moment.";
+          msg.classList.add("is-error");
+          return;
+        }
+      }
+      form.reset();
+      msg.textContent = "You're on the list. We'll email you at launch.";
+    });
+  }
+</script>

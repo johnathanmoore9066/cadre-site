@@ -1,0 +1,87 @@
+---
+import { SITE } from "../config";
+const year = new Date().getFullYear();
+---
+
+<footer class="footer">
+  <div class="wrap footer__inner">
+    <div class="footer__brand">
+      <span class="footer__mark">
+        <span class="b">[</span>{SITE.wordmark}<span class="suffix">{SITE.suffix}</span><span class="b">]</span>
+      </span>
+      <p class="footer__tag">{SITE.tagline}</p>
+    </div>
+
+    <nav class="footer__links" aria-label="Footer">
+      <a href="#privacy">Privacy</a>
+      <a href="#tools">Tools</a>
+      <a href="#how">How it works</a>
+      <a href="#download">Early access</a>
+    </nav>
+
+    <p class="footer__legal">
+      © {year} {SITE.name}. Decision support, not legal advice. Your data stays on your machine.
+    </p>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    border-top: 1px solid var(--ink);
+    padding-block: clamp(3rem, 7vh, 5rem);
+  }
+  .footer__inner {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: 2rem 1rem;
+    align-items: start;
+  }
+  .footer__mark {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: var(--step-2);
+    letter-spacing: -0.02em;
+  }
+  .footer__mark .b {
+    color: var(--accent);
+    font-family: var(--font-mono);
+    font-weight: 400;
+  }
+  .footer__mark .suffix {
+    font-family: var(--font-mono);
+    font-size: 0.5em;
+    color: var(--ink-faint);
+  }
+  .footer__tag {
+    margin-top: 0.8rem;
+    color: var(--ink-soft);
+  }
+  .footer__links {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    font-family: var(--font-mono);
+    font-size: var(--step--1);
+    justify-self: end;
+  }
+  .footer__links a {
+    color: var(--ink-soft);
+    transition: color 0.25s ease;
+  }
+  .footer__links a:hover {
+    color: var(--ink);
+  }
+  .footer__legal {
+    grid-column: 1 / -1;
+    margin-top: 1.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--line);
+    font-family: var(--font-mono);
+    font-size: var(--step--1);
+    color: var(--ink-faint);
+  }
+  @media (max-width: 640px) {
+    .footer__inner { grid-template-columns: 1fr; }
+    .footer__links { justify-self: start; }
+  }
+</style>

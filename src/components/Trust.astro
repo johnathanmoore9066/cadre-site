@@ -1,0 +1,67 @@
+---
+import { TRUST } from "../config";
+---
+
+<section class="section trust">
+  <div class="wrap">
+    <p class="eyebrow" data-reveal><span class="tick"></span>07 — Under the hood</p>
+    <ul class="trust__grid" data-reveal-group>
+      {
+        TRUST.map((t) => (
+          <li class="trust__item" data-reveal-item>
+            <span class="trust__plus">+</span>
+            {t}
+          </li>
+        ))
+      }
+    </ul>
+    <p class="trust__legal" data-reveal>
+      Cadre is decision support, not legal advice. The termination advisor maps a
+      situation onto your policy and the law and always defers the final call to
+      a qualified employment attorney.
+    </p>
+  </div>
+</section>
+
+<style>
+  .trust {
+    border-top: 1px solid var(--line);
+    background: var(--paper-2);
+  }
+  .trust__grid {
+    list-style: none;
+    margin: clamp(2rem, 5vh, 3rem) 0 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    border-top: 1px solid var(--line);
+    border-left: 1px solid var(--line);
+  }
+  .trust__item {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    padding: 1.5rem 1.3rem;
+    border-right: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    font-family: var(--font-display);
+    font-size: var(--step-1);
+    letter-spacing: -0.01em;
+  }
+  .trust__plus {
+    font-family: var(--font-mono);
+    color: var(--accent);
+    font-size: 0.9rem;
+  }
+  .trust__legal {
+    margin-top: 2rem;
+    font-family: var(--font-mono);
+    font-size: var(--step--1);
+    line-height: 1.7;
+    color: var(--ink-faint);
+    max-width: 70ch;
+  }
+  @media (max-width: 820px) {
+    .trust__grid { grid-template-columns: 1fr; }
+  }
+</style>

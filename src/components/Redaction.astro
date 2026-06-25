@@ -1,0 +1,142 @@
+---
+---
+
+<section class="section redaction" data-redact-scope>
+  <div class="wrap redaction__inner">
+    <div class="redaction__copy">
+      <p class="eyebrow" data-reveal><span class="tick"></span>04 — Bias-aware by default</p>
+      <h2 class="redaction__head" data-reveal>No names.<br />No scores.<br />No bias.</h2>
+      <p class="lead redaction__body" data-reveal>
+        Before a resume is analyzed, Cadre blind-screens it — name, email, phone,
+        and graduation year are stripped, and the model is told to ignore
+        protected-class signals. And it never hands back a grade. Just the gaps
+        worth a real conversation.
+      </p>
+    </div>
+
+    <div class="redaction__demo" aria-hidden="true">
+      <div class="card frame">
+        <p class="card__label">APPLICANT · BLIND-SCREENED</p>
+        <div class="field" data-redact><span class="field__k">Name</span><span class="field__v">Jordan A. Whitfield</span></div>
+        <div class="field" data-redact><span class="field__k">Email</span><span class="field__v">j.whitfield@gmail.com</span></div>
+        <div class="field" data-redact><span class="field__k">Phone</span><span class="field__v">(415) 555-0148</span></div>
+        <div class="field" data-redact><span class="field__k">Class of</span><span class="field__v">2009</span></div>
+        <div class="field field--keep"><span class="field__k">Experience</span><span class="field__v">8 yrs · distributed systems</span></div>
+        <div class="field field--keep"><span class="field__k">Stack</span><span class="field__v">Go · Postgres · gRPC</span></div>
+      </div>
+
+      <div class="arrow">→</div>
+
+      <div class="card frame card--out">
+        <p class="card__label accent">GAPS TO EXPLORE</p>
+        <div class="gap"><i class="lvl crit"></i>No production Kubernetes ownership</div>
+        <div class="gap"><i class="lvl note"></i>Hasn't led hiring before</div>
+        <div class="gap"><i class="lvl min"></i>Payments domain is adjacent</div>
+        <p class="card__foot">No number. No ranking. A read, not a report card.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .redaction {
+    border-top: 1px solid var(--line);
+  }
+  .redaction__inner {
+    display: grid;
+    grid-template-columns: 0.9fr 1.1fr;
+    gap: clamp(2rem, 5vw, 5rem);
+    align-items: center;
+  }
+  .redaction__head {
+    font-size: var(--step-4);
+    margin-top: 1.4rem;
+  }
+  .redaction__body {
+    margin-top: 1.8rem;
+  }
+
+  .redaction__demo {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    gap: clamp(0.8rem, 2vw, 1.6rem);
+  }
+  .card {
+    padding: 1.2rem;
+    background: var(--white);
+  }
+  .card__label {
+    font-family: var(--font-mono);
+    font-size: 0.62rem;
+    letter-spacing: 0.16em;
+    color: var(--ink-faint);
+    margin-bottom: 0.9rem;
+  }
+  .field {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    font-size: 0.82rem;
+    padding: 0.5rem 0;
+    border-top: 1px solid var(--line-soft);
+  }
+  .field[data-redact] {
+    --redact-w: 0%;
+  }
+  .field__k {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    color: var(--ink-faint);
+  }
+  /* the blackout: width driven by --redact-w, animated on scroll in motion.ts */
+  .field[data-redact]::after {
+    content: "";
+    position: absolute;
+    left: -0.3rem;
+    top: 0.35rem;
+    bottom: 0.35rem;
+    width: var(--redact-w, 0%);
+    background: var(--ink);
+    border-radius: 1px;
+  }
+  .arrow {
+    font-family: var(--font-mono);
+    color: var(--ink-faint);
+    font-size: 1.4rem;
+  }
+  .card--out {
+    background: var(--paper-2);
+  }
+  .gap {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-size: 0.84rem;
+    padding: 0.5rem 0;
+    border-top: 1px solid var(--line-soft);
+  }
+  .lvl {
+    width: 7px;
+    height: 7px;
+    flex: none;
+    border-radius: 1px;
+  }
+  .lvl.crit { background: var(--accent); }
+  .lvl.note { background: var(--ink-soft); }
+  .lvl.min { background: var(--ink-faint); }
+  .card__foot {
+    margin-top: 1rem;
+    font-family: var(--font-mono);
+    font-size: 0.66rem;
+    color: var(--ink-faint);
+    line-height: 1.5;
+  }
+
+  @media (max-width: 900px) {
+    .redaction__inner { grid-template-columns: 1fr; }
+    .redaction__demo { grid-template-columns: 1fr; }
+    .arrow { transform: rotate(90deg); justify-self: center; }
+  }
+</style>
